@@ -26,3 +26,12 @@ function draw() {
 	ground.show(groundImg);
 	dino.show(dinoRun1Img, dinoRun2Img);
 }
+
+function keyPressed() {
+	if (key === "w") {
+		dino.jump(true);
+	}
+	if (key === "e") {
+		dino.jump(false);
+	}
+}

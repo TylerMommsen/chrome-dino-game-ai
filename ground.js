@@ -1,8 +1,8 @@
 class Ground {
 	constructor() {
-		this.y = height - 300;
+		this.y = height - 335;
 		this.width = 2400;
-		this.height = 96;
+		this.height = 144;
 		this.speed = 10;
 
 		this.ground1X = 0;
