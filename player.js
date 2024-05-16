@@ -5,11 +5,14 @@ class Player {
 		this.width = 132;
 		this.height = 144;
 		this.isGrounded = true;
+		this.isDucking = false;
 		this.velocityY = 0;
 		this.gravity = 1;
+		this.maxFallSpeed = 30;
 
 		this.animTimer = 0;
 		this.displayRun1 = true;
+		this.displayDuck1 = false;
 	}
 
 	move() {
@@ -17,6 +20,7 @@ class Player {
 		if (!this.isGrounded) {
 			this.velocityY -= this.gravity;
 
+			// check if dino is on the ground
 			if (this.y > height - 350) {
 				this.velocityY = 0;
 				this.y = height - 350;
@@ -26,6 +30,8 @@ class Player {
 	}
 
 	jump(isBigJump) {
+		if (this.isDucking) return;
+
 		if (this.isGrounded) {
 			this.isGrounded = false;
 
@@ -39,7 +45,19 @@ class Player {
 		}
 	}
 
-	duck() {}
+	duck() {
+		this.isDucking = true;
+		this.gravity = 5;
+
+		if (this.isGrounded) {
+			this.width = 177;
+		}
+	}
+
+	stopDucking() {
+		this.isDucking = false;
+		this.width = 132;
+	}
 
 	update() {
 		this.move();
@@ -47,14 +65,28 @@ class Player {
 		if (this.animTimer === 5) {
 			this.animTimer = 0;
 			this.displayRun1 = !this.displayRun1;
+
+			if (this.isDucking) {
+				this.displayDuck1 = !this.displayDuck1;
+			}
 		}
 	}
 
-	show(runImg1, runImg2) {
-		if (this.displayRun1) {
-			image(runImg1, this.x, this.y, this.width, this.height);
+	show() {
+		if (!this.isDucking || !this.isGrounded) {
+			if (this.displayRun1) {
+				image(dinoRun1Img, this.x, this.y, this.width, this.height);
+			} else {
+				image(dinoRun2Img, this.x, this.y, this.width, this.height);
+			}
 		} else {
-			image(runImg2, this.x, this.y, this.width, this.height);
+			if (this.isGrounded) {
+				if (this.displayDuck1) {
+					image(dinoDuck1Img, this.x, this.y, this.width, this.height);
+				} else {
+					image(dinoDuck2Img, this.x, this.y, this.width, this.height);
+				}
+			}
 		}
 	}
 }

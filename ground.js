@@ -22,8 +22,8 @@ class Ground {
 		this.move();
 	}
 
-	show(img) {
-		image(img, this.ground1X, this.y, this.width, this.height);
-		image(img, this.ground2X, this.y, this.width, this.height);
+	show() {
+		image(groundImg, this.ground1X, this.y, this.width, this.height);
+		image(groundImg, this.ground2X, this.y, this.width, this.height);
 	}
 }
