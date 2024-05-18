@@ -23,6 +23,10 @@ let gameSpeed = 10;
 let score = 0;
 let font;
 
+let gameOver = false;
+
+let visualizationMode = false;
+
 function preload() {
 	groundImg = loadImage("./assets/ground.png");
 	dinoRun1Img = loadImage("./assets/dinorun1.png");
@@ -60,6 +64,8 @@ function setup() {
 function draw() {
 	// ---- logic ----
 
+	if (gameOver) return;
+
 	// spawn new cactus
 	if (cactusSpawnTimer >= 100) {
 		allCacti.push(new Cactus());
@@ -80,6 +86,8 @@ function draw() {
 	for (let i = 0; i < allCacti.length; i++) {
 		allCacti[i].update();
 
+		if (allCacti[i].collidedWithPlayer()) gameOver = true;
+
 		if (allCacti[i].offScreen()) {
 			allCacti.splice(i, 1);
 			i--;
@@ -96,8 +104,13 @@ function draw() {
 	}
 	dino.show();
 
+	if (visualizationMode) {
+		visualizeHitBoxes();
+	}
+
 	textFont(font);
 	fill(53);
+	noStroke();
 	textSize(40);
 	let paddedScore = padScore(floor(score));
 	let scoreText = "Score: " + paddedScore;
@@ -119,12 +132,29 @@ function getRandomInterval() {
 	return int(random(-30, 30));
 }
 
+function visualizeHitBoxes() {
+	// visualize dino hitbox
+	stroke(255, 0, 0);
+	noFill();
+	rect(dino.x + 30, dino.y + 30, dino.width - 60, dino.height - 60);
+
+	// visualize obstacles
+	for (let i = 0; i < allCacti.length; i++) {
+		let obstacle = allCacti[i];
+
+		rect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+	}
+}
+
 function keyPressed() {
-	if (key === "w") {
+	if (key === "w" || " ") {
 		dino.jump(true);
 	}
 	if (key === "e") {
 		dino.jump(false);
+	}
+	if (key === "v") {
+		visualizationMode = !visualizationMode;
 	}
 }
 

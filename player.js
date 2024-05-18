@@ -4,6 +4,7 @@ class Player {
 		this.y = height - 350;
 		this.width = 132;
 		this.height = 144;
+
 		this.isGrounded = true;
 		this.isDucking = false;
 		this.velocityY = 0;

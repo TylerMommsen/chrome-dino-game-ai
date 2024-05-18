@@ -36,4 +36,19 @@ class Cactus {
 
 		return false;
 	}
+
+	collidedWithPlayer() {
+		if (dino.x + 30 + dino.width - 60 > this.x && dino.x + 30 < this.x + this.width) {
+			if (dino.isDucking) {
+				if (dino.y + dino.height / 2 > this.y) {
+					return true;
+				}
+			} else {
+				if (dino.y + 30 + dino.height - 60 > this.y) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
