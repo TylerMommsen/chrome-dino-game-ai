@@ -13,13 +13,15 @@ let smallDoubleCactusImg;
 let smallSingleCactusImg;
 
 let allCactiImgs = [];
-let cactusSpawnTimer = 0;
+let cactusSpawnTimer = 50;
 
 let allCacti = [];
 
 let dino;
 
 let gameSpeed = 10;
+let score = 0;
+let font;
 
 function preload() {
 	groundImg = loadImage("./assets/ground.png");
@@ -34,6 +36,8 @@ function preload() {
 	smallTripleCactusImg = loadImage("./assets/cactussmalltriple.png");
 	smallDoubleCactusImg = loadImage("./assets/cactussmalldouble.png");
 	smallSingleCactusImg = loadImage("./assets/cactussmallsingle.png");
+
+	font = loadFont("./assets/PublicPixel.ttf");
 }
 
 function setup() {
@@ -59,7 +63,7 @@ function draw() {
 	// spawn new cactus
 	if (cactusSpawnTimer >= 100) {
 		allCacti.push(new Cactus());
-		cactusSpawnTimer = 0;
+		cactusSpawnTimer = getRandomInterval();
 	}
 	cactusSpawnTimer++;
 
@@ -70,10 +74,16 @@ function draw() {
 
 	ground.update();
 	dino.update();
+	score += gameSpeed / 60;
 
 	// update all cacti logic
 	for (let i = 0; i < allCacti.length; i++) {
 		allCacti[i].update();
+
+		if (allCacti[i].offScreen()) {
+			allCacti.splice(i, 1);
+			i--;
+		}
 	}
 
 	// ---- visuals ----
@@ -85,6 +95,28 @@ function draw() {
 		allCacti[i].show();
 	}
 	dino.show();
+
+	textFont(font);
+	fill(53);
+	textSize(40);
+	let paddedScore = padScore(floor(score));
+	let scoreText = "Score: " + paddedScore;
+	let scoreWidth = textWidth(scoreText);
+	text(scoreText, width - scoreWidth - 100, 100);
+}
+
+// add 0's to the score display
+function padScore(score) {
+	let scoreStr = score.toString();
+	while (scoreStr.length < 5) {
+		scoreStr = "0" + scoreStr;
+	}
+	return scoreStr;
+}
+
+// add some randomness to the cactus spawns by changing the interval every time
+function getRandomInterval() {
+	return int(random(-30, 30));
 }
 
 function keyPressed() {

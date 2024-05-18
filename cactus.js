@@ -11,7 +11,6 @@ class Cactus {
 
 	initCactus() {
 		let randomCactusIndex = floor(random(0, 6));
-		console.log(randomCactusIndex);
 		this.cactusImg = allCactiImgs[randomCactusIndex];
 		this.width = this.cactusImg.width;
 		this.height = this.cactusImg.height;
@@ -28,5 +27,13 @@ class Cactus {
 
 	show() {
 		image(this.cactusImg, this.x, this.y, this.width, this.height);
+	}
+
+	offScreen() {
+		if (this.x < -300) {
+			return true;
+		}
+
+		return false;
 	}
 }
