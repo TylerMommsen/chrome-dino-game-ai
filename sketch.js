@@ -12,15 +12,18 @@ let smallTripleCactusImg;
 let smallDoubleCactusImg;
 let smallSingleCactusImg;
 
-let allCactiImgs = [];
-let cactusSpawnTimer = 50;
+let allObstacleImgs = [];
+let obstacleSpawnTimer = 50;
 
-let allCacti = [];
+let allObstacles = [];
 
 let dino;
 
 let gameSpeed = 10;
+let speedIncrement = 0.5;
 let score = 0;
+let lastScoreMilestone = 0;
+
 let font;
 
 let gameOver = false;
@@ -40,6 +43,9 @@ function preload() {
 	smallTripleCactusImg = loadImage("./assets/cactussmalltriple.png");
 	smallDoubleCactusImg = loadImage("./assets/cactussmalldouble.png");
 	smallSingleCactusImg = loadImage("./assets/cactussmallsingle.png");
+
+	birdImg1 = loadImage("./assets/bird1.png");
+	birdImg2 = loadImage("./assets/bird2.png");
 
 	font = loadFont("./assets/PublicPixel.ttf");
 }
@@ -64,14 +70,21 @@ function setup() {
 function draw() {
 	// ---- logic ----
 
-	if (gameOver) return;
+	if (gameOver) {
+		console.log("game over");
+		return;
+	}
 
 	// spawn new cactus
-	if (cactusSpawnTimer >= 100) {
-		allCacti.push(new Cactus());
-		cactusSpawnTimer = getRandomInterval();
+	if (obstacleSpawnTimer >= 110 - gameSpeed) {
+		if (random(1) < 0.9) {
+			allObstacles.push(new Cactus());
+		} else {
+			allObstacles.push(new Bird());
+		}
+		obstacleSpawnTimer = getRandomInterval();
 	}
-	cactusSpawnTimer++;
+	obstacleSpawnTimer++;
 
 	// if the letter 's' is held down then make the dino duck
 	if (keyIsDown(83)) {
@@ -81,15 +94,27 @@ function draw() {
 	ground.update();
 	dino.update();
 	score += gameSpeed / 60;
+	if (floor(score) - lastScoreMilestone >= 100) {
+		lastScoreMilestone = floor(score);
+		gameSpeed += speedIncrement;
+	}
 
-	// update all cacti logic
-	for (let i = 0; i < allCacti.length; i++) {
-		allCacti[i].update();
+	// update all obstacle logic
+	for (let i = 0; i < allObstacles.length; i++) {
+		allObstacles[i].update();
 
-		if (allCacti[i].collidedWithPlayer()) gameOver = true;
+		if (allObstacles[i].isBird) {
+			if (allObstacles[i].collidedWithPlayer(true)) {
+				gameOver = true;
+			}
+		} else {
+			if (allObstacles[i].collidedWithPlayer(false)) {
+				gameOver = true;
+			}
+		}
 
-		if (allCacti[i].offScreen()) {
-			allCacti.splice(i, 1);
+		if (allObstacles[i].offScreen()) {
+			allObstacles.splice(i, 1);
 			i--;
 		}
 	}
@@ -98,9 +123,9 @@ function draw() {
 
 	background(247);
 	ground.show();
-	// show all cacti
-	for (let i = 0; i < allCacti.length; i++) {
-		allCacti[i].show();
+	// show all obstacles
+	for (let i = 0; i < allObstacles.length; i++) {
+		allObstacles[i].show();
 	}
 	dino.show();
 
@@ -136,18 +161,22 @@ function visualizeHitBoxes() {
 	// visualize dino hitbox
 	stroke(255, 0, 0);
 	noFill();
-	rect(dino.x + 30, dino.y + 30, dino.width - 60, dino.height - 60);
+	if (dino.isDucking) {
+		rect(dino.x + 30, dino.y + 60, dino.width - 60, dino.height - 60);
+	} else {
+		rect(dino.x + 30, dino.y + 30, dino.width - 60, dino.height - 60);
+	}
 
 	// visualize obstacles
-	for (let i = 0; i < allCacti.length; i++) {
-		let obstacle = allCacti[i];
+	for (let i = 0; i < allObstacles.length; i++) {
+		let obstacle = allObstacles[i];
 
 		rect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
 	}
 }
 
 function keyPressed() {
-	if (key === "w" || " ") {
+	if (key === "w") {
 		dino.jump(true);
 	}
 	if (key === "e") {

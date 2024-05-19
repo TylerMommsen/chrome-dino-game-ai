@@ -3,17 +3,16 @@ class Ground {
 		this.y = height - 335;
 		this.width = 2400;
 		this.height = 144;
+		this.xOffset = 0;
 
-		this.ground1X = 0;
-		this.ground2X = 2400;
+		// this.grounds = [{ x: 0 }, { x: this.width }, { x: this.width * 2 }];
 	}
 
 	move() {
-		this.ground1X -= gameSpeed;
-		this.ground2X -= gameSpeed;
-		if (this.ground1X === -2400) {
-			this.ground1X = 0;
-			this.ground2X = 2400;
+		this.xOffset -= gameSpeed;
+
+		if (this.xOffset <= -this.width) {
+			this.xOffset += this.width;
 		}
 	}
 
@@ -22,7 +21,9 @@ class Ground {
 	}
 
 	show() {
-		image(groundImg, this.ground1X, this.y, this.width, this.height);
-		image(groundImg, this.ground2X, this.y, this.width, this.height);
+		for (let i = 0; i <= width / this.width + 1; i++) {
+			let x = i * this.width + this.xOffset;
+			image(groundImg, x, this.y, this.width, this.height);
+		}
 	}
 }

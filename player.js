@@ -74,7 +74,12 @@ class Player {
 	}
 
 	show() {
-		if (!this.isDucking || !this.isGrounded) {
+		if (!this.isGrounded) {
+			image(dinoRun2Img, this.x, this.y, this.width, this.height);
+			return;
+		}
+
+		if (!this.isDucking) {
 			if (this.displayRun1) {
 				image(dinoRun1Img, this.x, this.y, this.width, this.height);
 			} else {

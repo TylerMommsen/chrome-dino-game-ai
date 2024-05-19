@@ -1,20 +1,25 @@
-class Cactus {
+class Cactus extends Obstacle {
 	constructor() {
-		this.x = width + 250;
-		this.y;
-		this.width;
-		this.height;
-		this.cactusImg;
+		let cactusProperties = Cactus.initCactus();
+		super(cactusProperties.x, cactusProperties.y, cactusProperties.width, cactusProperties.height);
 
-		this.cactusType = this.initCactus();
+		this.cactusImg = cactusProperties.cactusImg;
 	}
 
-	initCactus() {
+	static initCactus() {
 		let randomCactusIndex = floor(random(0, 6));
-		this.cactusImg = allCactiImgs[randomCactusIndex];
-		this.width = this.cactusImg.width;
-		this.height = this.cactusImg.height;
-		this.y = height - 206 - this.height;
+		let cactusImg = allCactiImgs[randomCactusIndex];
+		let cactusWidth = cactusImg.width;
+		let cactusHeight = cactusImg.height;
+		let x = width + 225;
+		let y = height - 206 - cactusHeight;
+		return {
+			x: x,
+			y: y,
+			width: cactusWidth,
+			height: cactusHeight,
+			cactusImg: cactusImg,
+		};
 	}
 
 	move() {
@@ -27,28 +32,5 @@ class Cactus {
 
 	show() {
 		image(this.cactusImg, this.x, this.y, this.width, this.height);
-	}
-
-	offScreen() {
-		if (this.x < -300) {
-			return true;
-		}
-
-		return false;
-	}
-
-	collidedWithPlayer() {
-		if (dino.x + 30 + dino.width - 60 > this.x && dino.x + 30 < this.x + this.width) {
-			if (dino.isDucking) {
-				if (dino.y + dino.height / 2 > this.y) {
-					return true;
-				}
-			} else {
-				if (dino.y + 30 + dino.height - 60 > this.y) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 }
