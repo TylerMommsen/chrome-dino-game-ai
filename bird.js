@@ -19,7 +19,7 @@ class Bird extends Obstacle {
 		}
 		let birdWidth = birdImg1.width;
 		let birdHeight = birdImg1.height;
-		let speed = random(-gameSpeed / 6, gameSpeed / 6);
+		let speed = random(-gameSpeed / 8, gameSpeed / 8);
 		return {
 			x: x,
 			y: y,
