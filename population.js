@@ -179,7 +179,6 @@ class Population {
 	nextGeneration() {
 		let averageSum = this.getAverageFitnessSum();
 		let children = [];
-		// console.log(this.population);
 
 		// clone the champion (best player)
 		for (let i = 0; i < this.species.length; i++) {
@@ -197,8 +196,6 @@ class Population {
 		while (children.length < this.population.length) {
 			children.push(this.species[0].reproduce(this.innovationHistory));
 		}
-
-		console.log(this.population);
 
 		this.population = [];
 

@@ -161,6 +161,7 @@ function draw() {
 		if (population.allDead() === false) {
 			population.updatePlayers();
 		} else {
+			// if all dinos die, then start next generation
 			generation++;
 			allObstacles = [];
 			obstacleCount = 0;
@@ -264,12 +265,6 @@ function visualizeHitBoxes() {
 }
 
 function keyPressed() {
-	if (key === "w") {
-		dino.jump(true);
-	}
-	if (key === "e") {
-		dino.jump(false);
-	}
 	if (key === "v") {
 		visualizationMode = !visualizationMode;
 	}
