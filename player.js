@@ -162,18 +162,18 @@ class Player {
 			gapBetweenObstacles = nextObstacle.x - (closestObstacle.x + closestObstacle.width);
 		}
 
-		this.vision[0] = map(distanceToObstacle, 0, 2400, 1, 0);
-		this.vision[1] = map(closestObstacle.height, 0, 144, 0, 1);
+		this.vision[0] = map(this.y, 930, 677, 0, 1);
+		this.vision[1] = map(distanceToObstacle, 0, 2400, 1, 0);
 		this.vision[2] = map(closestObstacle.width, 0, 225, 0, 1);
+		this.vision[3] = map(closestObstacle.height, 0, 144, 0, 1);
 
 		if (closestObstacle.isBird) {
-			this.vision[3] = map(abs(closestObstacle.y + closestObstacle.height - this.y), 0, 62, 0, 1);
+			this.vision[4] = map(abs(closestObstacle.y + closestObstacle.height - this.y), 0, 62, 0, 1);
 		} else {
-			this.vision[3] = 0;
+			this.vision[4] = 0;
 		}
 
-		this.vision[4] = map(gameSpeed, 10, 40, 0, 1);
-		this.vision[5] = map(this.y, 930, 677, 0, 1);
+		this.vision[5] = map(gameSpeed, 10, 40, 0, 1);
 	}
 
 	think() {
@@ -183,7 +183,6 @@ class Player {
 		let maxDecisionValue = Math.max(...this.decision);
 		let actionIndex = this.decision.indexOf(maxDecisionValue);
 
-		// console.log(maxDecisionValue);
 		if (maxDecisionValue < 0.7) {
 			this.stopDucking();
 			return;

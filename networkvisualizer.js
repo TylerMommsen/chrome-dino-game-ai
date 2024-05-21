@@ -6,12 +6,12 @@ class NetworkVisualizer {
 		this.width = width; // width of the visualization area
 		this.height = height; // height of the visualization area
 		this.inputLabels = [
+			"Player Y",
 			"Distance To Obstacle",
-			"Obstacle Height",
 			"Obstacle Width",
+			"Obstacle Height",
 			"Bird Y",
 			"Game Speed",
-			"Player Y",
 		];
 		this.outputLabels = ["Big Jump", "Small Jump", "Duck"];
 	}
@@ -83,14 +83,14 @@ class NetworkVisualizer {
 			stroke(0);
 			strokeWeight(1);
 			fill(255);
-			ellipse(pos.x, pos.y, 50, 50);
+			ellipse(pos.x, pos.y, 40, 40);
 
 			// draw node numbers
 			fill(0);
 			noStroke();
 			textFont("sans-serif");
 			textStyle(BOLD);
-			textSize(20);
+			textSize(18);
 			textAlign(CENTER, CENTER);
 			text(index, pos.x, pos.y);
 

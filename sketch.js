@@ -76,9 +76,9 @@ function setup() {
 	networkVisualizer = new NetworkVisualizer(
 		population.population[0].brain,
 		width / 6,
-		height / 12,
+		height / 16,
 		1500,
-		700
+		500
 	);
 }
 
