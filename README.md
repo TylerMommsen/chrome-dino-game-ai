@@ -6,8 +6,6 @@ The offline Google chrome dino game with the NEAT (Neuroevolution of Augmenting 
 
 [View Live Site Here](https://tylermommsen-chrome-dino-game-ai.vercel.app/)
 
-If it appears zoomed in, just press `Ctrl -`, because default resolution is 2560x1440.
-
 Some shortcuts:
 
 - `1` - 1x Speed
